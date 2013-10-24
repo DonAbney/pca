@@ -1,9 +1,9 @@
 import groovy.util.GroovyTestCase
    
-class ExampleTest extends GroovyTestCase {
+class DavescodeTest extends GroovyTestCase {
     
     void testFailingTest() {
-        Example myExample = new DaveExample()
+        Davescode myExample = new Davescode()
         assertTrue(myExample.fail())
     }
 }
