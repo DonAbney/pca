@@ -1,6 +1,6 @@
 class Example {
     
     def fail() {
-        false
+        true
     }
 }
