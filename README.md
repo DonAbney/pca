@@ -9,6 +9,7 @@ Command Line Build
 At the command line, you can do a complete clone, and build with:
 
 	git clone https://github.com/DonAbney/pca.git
+	cd pca
 	./build.sh
 
 Davescode
