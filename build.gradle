@@ -1,4 +1,5 @@
 apply plugin: 'groovy'
+buildDir = 'out'
 
 repositories {
     mavenCentral()
