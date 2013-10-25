@@ -8,7 +8,7 @@ class DonkeyTest extends GroovyTestCase {
         donkey = new Donkey()
     }
 
-    void testGetDonkeyShouldReturnADonkey() {
-        assertNotNull(donkey.get(1))
+    void testGetShouldReturnADonkeyWithId1WhenIdPassedIs1() {
+        assertEquals(1, donkey.get(1).id)
     }
 }
