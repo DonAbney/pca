@@ -15,7 +15,7 @@ At the command line, you can do a complete clone, and build with:
 Davescode
 ==========
 
-Am example class, for Dave to mess around with, and hopefully not break the build
+An example class, for Dave to mess around with, and hopefully not break the build
 any more.
 
  
