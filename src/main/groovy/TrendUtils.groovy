@@ -9,7 +9,7 @@ class TrendUtils {
   	def collatedList = l.collate(2, 1)
 
   	collatedList.each{println it}
-  	collatedList.collect {it.size() == 2 ? (it[1] - it[0])/it[0] : 0.0d}.sum()
+  	collatedList.collect {it.size() == 2 ? it[0] == 0.0d ? 1.0d : (it[1] - it[0])/it[0] : 0.0d}.sum()
 
   }
 

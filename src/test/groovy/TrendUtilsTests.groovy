@@ -48,4 +48,17 @@ class TrendUtilsTests extends GroovyTestCase {
     assert -0.1 == TrendUtils.findTrend(l)
   }
 
+  void testShouldReturnProperPercentageWhenListOfThreeNumbersDecreasing() {
+    def l = [110.0d, 100.0d, 90.0d]
+
+    assert -0.19090909090909092 == TrendUtils.findTrend(l)
+  }
+
+  void testShouldReturnProperPercentWhenFirstNumberIsZeroAndSecondNumberIsPositive() {
+    def l = [0.0d, 50.0d]
+
+    assert 1.0d == TrendUtils.findTrend(l)
+  }
+
+
 }
