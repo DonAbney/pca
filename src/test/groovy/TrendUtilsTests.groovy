@@ -78,4 +78,10 @@ class TrendUtilsTests extends GroovyTestCase {
     assert 0.0d == TrendUtils.findTrend(l)
   }
 
+  void testShouldReturnProperTrendWhenFluxuationUpAndDown() {
+    def l = [10.0d, 20.0d, 10.0d]
+
+    assert 0.5d == TrendUtils.findTrend(l)
+  }
+
 }
