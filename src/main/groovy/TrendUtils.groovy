@@ -5,8 +5,6 @@ class TrendUtils {
   	if (l == null) return null 
   	if (l.isEmpty()) return null
 
-  	// if (l.size() == 1) return 0.0d
-
   	def collatedList = l.collate(2, 1)
 
   	def trend = 0.0d
@@ -18,14 +16,14 @@ class TrendUtils {
 
   }
 
-  def private static gatherTrend(list) {
-  		if (list.size() != 2) return 0.0d
+  def private static gatherTrend(pair) {
+  		if (pair.size() != 2) return 0.0d
 
-  		if (list[0] == 0.0d && list[1] == 0.0d) return 0.0d
+  		if (pair[0] == 0.0d && pair[1] == 0.0d) return 0.0d
 
-  		if (list[0] == 0.0d && list[1] > 0.0d) return 1.0d
+  		if (pair[0] == 0.0d && pair[1] > 0.0d) return 1.0d
 
-  		(list[1] - list[0])/list[0]
+  		(pair[1] - pair[0])/pair[0]
   }
 
 }
