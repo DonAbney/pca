@@ -9,7 +9,22 @@ class TrendUtils {
   	def collatedList = l.collate(2, 1)
 
   	collatedList.each{println it}
-  	collatedList.collect {it.size() == 2 ? it[0] == 0.0d ? 1.0d : (it[1] - it[0])/it[0] : 0.0d}.sum()
+
+  	def trend = 0.0d
+  	collatedList.each {
+  		if (it.size() != 2) return
+
+  		if (it[0] == 0.0d && it[1] > 0.0d) {
+  			trend += 1.0d 
+  			return
+  		}
+
+  		if (it[0] == 0.0d && it[1] == 0.0d) return 
+
+  		trend += (it[1] - it[0])/it[0]
+  	}
+
+  	trend
 
   }
 
