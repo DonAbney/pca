@@ -8,10 +8,8 @@ class TrendUtils {
   	if (list == null) return null 
   	if (list.isEmpty()) return null
 
-  	def collatedList = list.collate(COLLATE_SIZE, COLLATE_STEP)
-
   	def trend = 0.0d
-  	collatedList.each {
+  	buildMatchedPairs(list, COLLATE_STEP, COLLATE_SIZE).each {
   		trend += gatherTrend(it)
   	}
 
@@ -20,13 +18,17 @@ class TrendUtils {
   }
 
   def private static gatherTrend(pair) {
-  		if (pair.size() != COLLATE_SIZE) return 0.0d
+  	if (pair.size() != COLLATE_SIZE) return 0.0d
 
-  		if (bothElementsEqualZero(pair)) return 0.0d
+  	if (bothElementsEqualZero(pair)) return 0.0d
 
-  		if (firstElementEqualZeroAndSecondGreaterThanZero(pair)) return 1.0d
+  	if (firstElementEqualZeroAndSecondGreaterThanZero(pair)) return 1.0d
 
-  		(pair[1] - pair[0])/pair[0]
+  	(pair[1] - pair[0])/pair[0]
+  }
+
+  def private static buildMatchedPairs(list, step, size) {
+  	list.collate(COLLATE_SIZE, COLLATE_STEP)
   }
 
   def private static bothElementsEqualZero(pair) {
