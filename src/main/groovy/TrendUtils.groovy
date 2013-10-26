@@ -1,11 +1,11 @@
 class TrendUtils {
 
-  def static findTrend(List l) {
+  def static findTrend(List list) {
 
-  	if (l == null) return null 
-  	if (l.isEmpty()) return null
+  	if (list == null) return null 
+  	if (list.isEmpty()) return null
 
-  	def collatedList = l.collate(2, 1)
+  	def collatedList = list.collate(2, 1)
 
   	def trend = 0.0d
   	collatedList.each {
