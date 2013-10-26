@@ -84,4 +84,10 @@ class TrendUtilsTests extends GroovyTestCase {
     assert 0.5d == TrendUtils.findTrend(l)
   }
 
+  void testShouldHandleRealWorldExample1() {
+    def l = [2556.0d, 1160.0d, 1050.0d, 369.0d]
+
+    assert -1.2895648989723782 == TrendUtils.findTrend(l)
+  }
+
 }
