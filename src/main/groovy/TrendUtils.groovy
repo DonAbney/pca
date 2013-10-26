@@ -8,24 +8,23 @@ class TrendUtils {
 
   	def collatedList = l.collate(2, 1)
 
-  	collatedList.each{println it}
-
   	def trend = 0.0d
   	collatedList.each {
-  		if (it.size() != 2) return
-
-  		if (it[0] == 0.0d && it[1] > 0.0d) {
-  			trend += 1.0d 
-  			return
-  		}
-
-  		if (it[0] == 0.0d && it[1] == 0.0d) return 
-
-  		trend += (it[1] - it[0])/it[0]
+  		trend += gatherTrend(it)
   	}
 
   	trend
 
+  }
+
+  def private static gatherTrend(list) {
+  		if (list.size() != 2) return 0.0d
+
+  		if (list[0] == 0.0d && list[1] == 0.0d) return 0.0d
+
+  		if (list[0] == 0.0d && list[1] > 0.0d) return 1.0d
+
+  		(list[1] - list[0])/list[0]
   }
 
 }
