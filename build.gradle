@@ -1,4 +1,6 @@
 apply plugin: 'groovy'
+defaultTasks 'test'
+buildDir = 'out'
 
 repositories {
     mavenCentral()
