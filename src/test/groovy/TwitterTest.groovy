@@ -1,5 +1,6 @@
 package test.groovy
 
+import main.groovy.Tweet
 import main.groovy.Twitter
 
 class TwitterTest extends GroovyTestCase {
@@ -9,6 +10,12 @@ class TwitterTest extends GroovyTestCase {
     void testThatPublicTimelineCanBeReturned() {
         def result = twitter.getPublicTimeline()
 
-        assertNotNull(result)
+        assert result.size() > 0
+
+        result.each {
+            assert it instanceof Tweet
+        }
+
+
     }
 }
