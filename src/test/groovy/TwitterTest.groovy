@@ -6,9 +6,9 @@ class TwitterTest extends GroovyTestCase {
 
     def twitter = new Twitter()
 
-    void testConnectShouldConnectToTwitter() {
-           assertNotNull(twitter.connect())
+    void testThatPublicTimelineCanBeReturned() {
+        def result = twitter.getPublicTimeline()
+
+        assertNotNull(result)
     }
-
-
 }
