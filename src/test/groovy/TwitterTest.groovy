@@ -8,6 +8,8 @@ class TwitterTest extends GroovyTestCase {
     def twitter = new Twitter()
 
     void testThatPublicTimelineCanBeReturned() {
+        
+        twitter.setTweets([new Tweet('junk', 'junk')])
         def result = twitter.getPublicTimeline()
 
         assert result.size() > 0
