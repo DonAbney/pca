@@ -5,6 +5,8 @@ import groovy.xml.MarkupBuilder
 class Twitter {
 
     def tweets = []
+    def whiteList = []
+    def blackList = []
 
     def getPublicTimeline() {
         tweets
