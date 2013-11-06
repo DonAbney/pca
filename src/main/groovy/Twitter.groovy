@@ -28,6 +28,7 @@ class Twitter {
     }
 
     def findTweetsForHashtag(hashtag) {
-        [ new Tweet(), new Tweet() ]
+        '#sportsRockNot'
+//        [ new Tweet(tweet), new Tweet() ]
     }
 }

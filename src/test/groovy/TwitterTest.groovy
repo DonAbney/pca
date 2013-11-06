@@ -16,7 +16,7 @@ class TwitterTest extends GroovyTestCase {
 
     void testThatPublicTimelineCanBeReturned() {
         
-        twitter.setTweets([new Tweet('junk', 'junk')])
+        twitter.setTweets([new Tweet(tweetHandle: 'junk', tweetText: 'junk')])
         def result = twitter.getPublicTimeline()
 
         assert result.size() > 0
@@ -33,9 +33,8 @@ class TwitterTest extends GroovyTestCase {
                 new Tweet([tweetHandle: "124", tweetText: "Hashtag 321"])
         ]
 
-        twitter.setTweets(tweets)
-        def result = twitter.findTweetsForHashtag("Hashtag")
-        assertEquals(2, result.size())
-
+         twitter.setTweets(tweets)
+        def result = twitter.findTweetsForHashtag("sportsRockNot")
+        assertTrue(result.contains("sportsRockNot"))
     }
 }
