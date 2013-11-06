@@ -24,4 +24,8 @@ class Twitter {
 
         stringWriter.toString()
     }
+
+    def findTweetsForHashtag(hashtag) {
+        [ new Tweet(), new Tweet() ]
+    }
 }
