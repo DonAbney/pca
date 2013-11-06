@@ -21,8 +21,8 @@ class AcceptanceTest extends GroovyTestCase {
     }
 
     void testWhenIRequestTweetsFromThePublicTimelineThenTheyReturnedAsValidHtml() {
-        Tweet tweetOne = new Tweet('Don', 'This is a tweet from Don')
-        Tweet tweetTwo = new Tweet('DJ', 'This is a tweet from DJ')
+        Tweet tweetOne = new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don')
+        Tweet tweetTwo = new Tweet(tweetHandle: 'DJ', tweetText: 'This is a tweet from DJ')
 
         def twitter = new Twitter()
         twitter.setTweets([tweetOne, tweetTwo])
