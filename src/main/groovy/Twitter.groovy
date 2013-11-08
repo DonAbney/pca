@@ -20,12 +20,16 @@ class Twitter {
         html.html {
             body {
                 ul {
-                    tweets.each { li(it.tweetText)}
+                    filteredTweets().each { li(it.tweetText)}
                 }
             }
         }
 
         stringWriter.toString()
+    }
+
+    def filteredTweets() {
+        tweets.grep( { ! ( it.tweetText =~ /black/ ) } )
     }
 
     def findTweetsForHashtag(hashtag) {

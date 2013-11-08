@@ -47,6 +47,19 @@ class AcceptanceTest extends GroovyTestCase {
         assert result.contains('<li>This should be white-listed, you suck</li>')
     }
 
+    void testWhenIRequestTweetsFromThePublicTimelineAreFilteredByTheWordBlacklist(){
+        def whiteList = []
+        def blackList = ['black']
+
+        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck')
+
+        def twitter = new Twitter(whiteList:whiteList, blackList:blackList)
+        twitter.setTweets([tweetOne])
+
+        def result = twitter.displayPublicTimeline()
+
+        assert !result.contains('<li>This should be black-listed, you suck</li>')
+    }
 
     void testWhenIRequestTweetsFromThePublicTimelineWithHashtagThenTheTweetsDisplayedHaveHashTag() {
 
@@ -67,5 +80,4 @@ class AcceptanceTest extends GroovyTestCase {
         }
 
     }
-
 }

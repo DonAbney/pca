@@ -1,11 +1,4 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-}
-
 apply plugin: 'groovy'
-
 defaultTasks 'test'
 buildDir = 'out'
 
@@ -25,4 +18,3 @@ test {
         exceptionFormat = 'full'
     }
 }
-
