@@ -9,7 +9,6 @@ buildscript {
 }
 
 apply plugin: 'groovy'
-apply plugin: 'cobertura'
 defaultTasks 'test'
 buildDir = 'out'
 
@@ -30,7 +29,4 @@ test {
     }
 }
 
-cobertura {
-    format = 'html'
-    includes = ['**/*.groovy']
-}
+

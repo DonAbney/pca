@@ -1,8 +1,4 @@
-package test.groovy
-
-import groovy.util.XmlSlurper
-import main.groovy.Tweet
-import main.groovy.Twitter
+package com.pca
 
 class AcceptanceTest extends GroovyTestCase {
 
@@ -47,6 +43,31 @@ class AcceptanceTest extends GroovyTestCase {
         assert result.contains('<li>This should be white-listed, you suck</li>')
     }
 
+    void testWhenIRequestTweetsFromThePublicTimelineWhiteListUsersAreNotFiltered() {
+        def whiteList = ['Jimmy']
+
+        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed')
+
+        def twitter = new Twitter(whiteList:whiteList)
+        twitter.setTweets([tweetOne])
+
+        def result = twitter.displayPublicTimeline()
+
+        assert result.contains('<li>This should be white-listed</li>')
+    }
+
+    void testWhenIRequestTweetsFromThePublicTimelineNonWhiteListUsersAreFilteredOut() {
+        def whiteList = ['Jimmy']
+
+        Tweet tweetOne = new Tweet(tweetHandle: 'Ken', tweetText: 'This should not be white-listed')
+
+        def twitter = new Twitter(whiteList:whiteList)
+        twitter.setTweets([tweetOne])
+
+        def result = twitter.displayPublicTimeline()
+
+        assert !result.contains('<li>This should not be white-listed</li>')
+    }
 
     void testWhenIRequestTweetsFromThePublicTimelineWithHashtagThenTheTweetsDisplayedHaveHashTag() {
 

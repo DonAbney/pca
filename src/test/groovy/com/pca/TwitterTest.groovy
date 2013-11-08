@@ -1,7 +1,5 @@
-package test.groovy
+package com.pca
 
-import main.groovy.Tweet
-import main.groovy.Twitter
 import org.junit.Before
 
 class TwitterTest extends GroovyTestCase {
@@ -36,5 +34,15 @@ class TwitterTest extends GroovyTestCase {
          twitter.setTweets(tweets)
         def result = twitter.findTweetsForHashtag("sportsRockNot")
         assertTrue(result.contains("sportsRockNot"))
+    }
+
+    void testThatATweetNotFromAWhiteListedUserIsNotReturnedInThePublicTimeline() {
+        twitter.whiteList =  ["WhiteListed"]
+        def tweets =[new Tweet(tweetHandle: "Jimmy", tweetText: "text")]
+        twitter.setTweets(tweets)
+
+        def result = twitter.displayPublicTimeline()
+
+        assertFalse(result.contains(tweets[0].tweetText))
     }
 }

@@ -1,4 +1,4 @@
-package main.groovy
+package com.pca
 
 class Tweet {
 

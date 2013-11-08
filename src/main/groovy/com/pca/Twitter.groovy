@@ -1,4 +1,4 @@
-package main.groovy
+package com.pca
 
 import groovy.xml.MarkupBuilder
 
@@ -13,13 +13,22 @@ class Twitter {
     }
 
     String displayPublicTimeline() {
+       def whiteListedTweets = []
+
+        if(whiteList.size() > 0) {
+            whiteListedTweets = filterWhiteListTweets()
+       }
+       else {
+           whiteListedTweets = tweets
+        }
+
         def stringWriter = new StringWriter()
         def html = new MarkupBuilder(stringWriter)
 
         html.html {
             body {
                 ul {
-                    tweets.each { li(it.tweetText)}
+                    whiteListedTweets.each { li(it.tweetText)}
                 }
             }
         }
@@ -30,5 +39,11 @@ class Twitter {
     def findTweetsForHashtag(hashtag) {
         '#sportsRockNot'
 //        [ new Tweet(tweet), new Tweet() ]
+    }
+
+    def filterWhiteListTweets() {
+        tweets.findAll{x ->
+            whiteList.contains(x.tweetHandle)
+        }
     }
 }
