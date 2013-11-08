@@ -1,15 +1,4 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath group: 'com.eriwen', name: 'gradle-cobertura-plugin', version: '1.1.1'
-    }
-}
-
 apply plugin: 'groovy'
-apply plugin: 'cobertura'
 defaultTasks 'test'
 buildDir = 'out'
 
@@ -28,9 +17,4 @@ test {
     testLogging {
         exceptionFormat = 'full'
     }
-}
-
-cobertura {
-    format = 'html'
-    includes = ['**/*.groovy']
 }
