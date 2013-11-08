@@ -26,15 +26,50 @@ class TwitterTest extends GroovyTestCase {
         }
     }
 
-    void testThatPublicTimelineFilteredByHashTagCanBeReturned() {
-
+    void testThatPublicTimelineFilteredByHashTagReturnsAllTweetsWhenAllMatchHashTag() {
+        def hashTag = 'Hashtag'
         def tweets = [
-                new Tweet([tweetHandle: "123", tweetText: "123 Hashtag"]),
-                new Tweet([tweetHandle: "124", tweetText: "Hashtag 321"])
+                new Tweet([tweetHandle: "123", tweetText: "123 ${hashTag}"]),
+                new Tweet([tweetHandle: "124", tweetText: "${hashTag} 321"])
         ]
 
-         twitter.setTweets(tweets)
-        def result = twitter.findTweetsForHashtag("sportsRockNot")
-        assertTrue(result.contains("sportsRockNot"))
+        twitter.setTweets(tweets)
+        def result = twitter.findTweetsForHashtag(hashTag)
+        assertEquals(2, result.size())
+        result.each{
+            assert it.tweetText.contains(hashTag)
+        }
     }
+
+    void testThatPublicTimelineFilteredByHashTagOnlyReturnsTweetsWithThatHashTag() {
+        def hashTag = 'Hashtag'
+        def tweets = [
+                new Tweet([tweetHandle: "123", tweetText: "123 ${hashTag}"]),
+                new Tweet([tweetHandle: "124", tweetText: "${hashTag} 321"]),
+                new Tweet([tweetHandle: "124", tweetText: "NoTag 321"])
+        ]
+
+        twitter.setTweets(tweets)
+        def result = twitter.findTweetsForHashtag(hashTag)
+        assertEquals(2, result.size())
+        result.each{
+            assert it.tweetText.contains(hashTag)
+        }
+    }
+
+    void testThatPublicTimelineFilteredByHashTagReturnsNoTweetsWhenNoneMatch() {
+        def hashTag = 'Hashtag'
+        def tweets = [
+                new Tweet([tweetHandle: "123", tweetText: "123"]),
+                new Tweet([tweetHandle: "124", tweetText: "321"]),
+                new Tweet([tweetHandle: "124", tweetText: "NoTag 321"])
+        ]
+
+        twitter.setTweets(tweets)
+        def result = twitter.findTweetsForHashtag(hashTag)
+        assert result instanceof List
+        assertEquals(0, result.size())
+
+    }
+
 }

@@ -2,6 +2,7 @@ package main.groovy
 
 import groovy.xml.MarkupBuilder
 
+
 class Twitter {
 
     def tweets = []
@@ -28,7 +29,12 @@ class Twitter {
     }
 
     def findTweetsForHashtag(hashtag) {
-        '#sportsRockNot'
-//        [ new Tweet(tweet), new Tweet() ]
+        def results = []
+        tweets.each {
+           if (it.tweetText.contains(hashtag)) {
+               results << it
+           }
+        }
+        return results
     }
 }

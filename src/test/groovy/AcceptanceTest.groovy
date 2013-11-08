@@ -53,16 +53,19 @@ class AcceptanceTest extends GroovyTestCase {
         def expectedHashTag = "#sportsRockNot"
 
         Tweet tweetOne = new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don and ' + expectedHashTag)
-        Tweet tweetTwo = new Tweet(tweetHandle: expectedHashTag + 'DJ', tweetText: 'This is a tweet from DJ')
+        Tweet tweetTwo = new Tweet(tweetHandle: 'DJ', tweetText: expectedHashTag + 'This is a tweet from DJ' )
 
         def twitter = new Twitter()
         twitter.setTweets([tweetOne, tweetTwo])
 
         def result = twitter.findTweetsForHashtag(expectedHashTag)
 
-        assert result.contains('#sportsRockNot')
+        assert result.size() == 2
 
-        assertEquals(1, result.findAll(expectedHashTag).size())
+        result.each{
+            assert it.tweetText.contains(expectedHashTag)
+        }
+
     }
 
 }
