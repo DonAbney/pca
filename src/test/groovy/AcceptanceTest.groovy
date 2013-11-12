@@ -29,7 +29,9 @@ class AcceptanceTest extends GroovyTestCase {
 
         def result = twitter.displayPublicTimeline()
 
+        // If the HTML is not valid, then the XmlSlurper will throw an exception and fail the test
         def rootNode = new XmlSlurper().parseText(result)
+        // Consider adding a try catch block, to gracefully fail if it throws an exception
 	}
 	
     void testWhenIRequestTweetsFromThePublicTimelineWhitelistUsersAreNotFilteredByTheWordBlacklist(){
