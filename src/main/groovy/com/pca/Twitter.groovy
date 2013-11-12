@@ -2,6 +2,7 @@ package com.pca
 
 import groovy.xml.MarkupBuilder
 
+
 class Twitter {
 
     def tweets = []
@@ -28,7 +29,7 @@ class Twitter {
         html.html {
             body {
                 ul {
-                    whiteListedTweets.each { li(it.tweetText)}
+                    filteredTweets().each { li(it.tweetText)}
                 }
             }
         }
@@ -36,14 +37,25 @@ class Twitter {
         stringWriter.toString()
     }
 
-    def findTweetsForHashtag(hashtag) {
-        '#sportsRockNot'
-//        [ new Tweet(tweet), new Tweet() ]
+    def filteredTweets() {
+        tweets.grep( { ! ( it.tweetText =~ /black/ ) } )
     }
 
+    def findTweetsForHashtag(hashtag) {
+        def results = []
+        tweets.each {
+           if (it.tweetText.contains(hashtag)) {
+               results << it
+           }
+        }
+        return results
+        }
+    }
+    
     def filterWhiteListTweets() {
         tweets.findAll{x ->
             whiteList.contains(x.tweetHandle)
         }
     }
+
 }
