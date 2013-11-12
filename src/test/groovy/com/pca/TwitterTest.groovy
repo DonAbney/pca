@@ -1,7 +1,5 @@
 package com.pca
 
-import main.groovy.Tweet
-import main.groovy.Twitter
 import org.junit.Before
 
 class TwitterTest extends GroovyTestCase {

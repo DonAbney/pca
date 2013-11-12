@@ -18,9 +18,6 @@ class Twitter {
 
         if(whiteList.size() > 0) {
             whiteListedTweets = filterWhiteListTweets()
-       }
-       else {
-           whiteListedTweets = tweets
         }
 
         def stringWriter = new StringWriter()
@@ -29,7 +26,8 @@ class Twitter {
         html.html {
             body {
                 ul {
-                    filteredTweets().each { li(it.tweetText)}
+                    whiteListedTweets.each { li(it.tweetText) }
+                    filteredTweets().each { li(it.tweetText) }
                 }
             }
         }
@@ -49,7 +47,6 @@ class Twitter {
            }
         }
         return results
-        }
     }
     
     def filterWhiteListTweets() {

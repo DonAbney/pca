@@ -1,8 +1,6 @@
 package com.pca
 
 import groovy.util.XmlSlurper
-import main.groovy.Tweet
-import main.groovy.Twitter
 
 class AcceptanceTest extends GroovyTestCase {
 
@@ -80,10 +78,10 @@ class AcceptanceTest extends GroovyTestCase {
     }
 
 
-    void testWhenIRequestTweetsFromThePublicTimelineNonWhiteListUsersAreFilteredOut() {
+    void testWhenIRequestTweetsFromThePublicTimelineNonWhiteListUsersWithBlacklistTweetsAreFilteredOut() {
         def whiteList = ['Jimmy']
 
-        Tweet tweetOne = new Tweet(tweetHandle: 'Ken', tweetText: 'This should not be white-listed')
+        Tweet tweetOne = new Tweet(tweetHandle: 'Ken', tweetText: 'This should not be white-listed, it should be black-listed')
 
         def twitter = new Twitter(whiteList:whiteList)
         twitter.setTweets([tweetOne])
