@@ -28,6 +28,9 @@ class AcceptanceTest extends GroovyTestCase {
         twitter.setTweets([tweetOne, tweetTwo])
 
         def result = twitter.displayPublicTimeline()
+        // uncomment the following line, to make the XmlSlurper throw an exception
+        // result += '<head>'
+
 
         // If the HTML is not valid, then the XmlSlurper will throw an exception and fail the test
         def rootNode = new XmlSlurper().parseText(result)
