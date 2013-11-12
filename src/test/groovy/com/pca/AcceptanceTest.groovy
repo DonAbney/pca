@@ -65,16 +65,18 @@ class AcceptanceTest extends GroovyTestCase {
     
      void testWhenIRequestTweetsFromThePublicTimelineAreFilteredByTheWordBlacklist(){
         def whiteList = []
-        def blackList = ['black']
+        def blackList = ['black', 'badword']
 
         Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck')
+        Tweet tweetTwo = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a badword.')
 
         def twitter = new Twitter(whiteList:whiteList, blackList:blackList)
-        twitter.setTweets([tweetOne])
+        twitter.setTweets([tweetOne, tweetTwo])
 
         def result = twitter.displayPublicTimeline()
 
         assert !result.contains('<li>This should be black-listed, you suck</li>')
+        assert !result.contains('<li>This includes a badword.</li>')
     }
 
 

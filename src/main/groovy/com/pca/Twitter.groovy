@@ -36,7 +36,7 @@ class Twitter {
     }
 
     def filteredTweets() {
-        tweets.grep( { ! ( it.tweetText =~ /black/ ) } )
+        tweets.grep( { ! ( it.tweetText =~ blackList.join('|') ) } )
     }
 
     def findTweetsForHashtag(hashtag) {
