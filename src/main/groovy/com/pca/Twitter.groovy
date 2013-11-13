@@ -14,20 +14,13 @@ class Twitter {
     }
 
     String displayPublicTimeline() {
-       def whiteListedTweets = []
-
-        if(whiteList.size() > 0) {
-            whiteListedTweets = filterWhiteListTweets()
-        }
-
         def stringWriter = new StringWriter()
         def html = new MarkupBuilder(stringWriter)
 
         html.html {
             body {
                 ul {
-                    whiteListedTweets.each { li(it.tweetText) }
-                    filteredTweets().each { li(it.tweetText) }
+                    tweets.each { if ( displayTweet(it) ) { li(it.tweetText) } }
                 }
             }
         }
@@ -35,8 +28,12 @@ class Twitter {
         stringWriter.toString()
     }
 
-    def filteredTweets() {
-        tweets.grep( { ! ( it.tweetText =~ blackList.join('|') ) } )
+    def displayTweet(tweet) {
+        filterWhiteListTweet(tweet) || ! blackListed(tweet)
+    }
+
+    def blackListed(tweet) {
+        return !blackList.isEmpty() && tweet.tweetText =~ blackList.join('|')
     }
 
     def findTweetsForHashtag(hashtag) {
@@ -49,10 +46,8 @@ class Twitter {
         return results
     }
     
-    def filterWhiteListTweets() {
-        tweets.findAll{x ->
-            whiteList.contains(x.tweetHandle)
-        }
+    def filterWhiteListTweet(tweet) {
+       whiteList.contains(tweet.tweetHandle)
     }
 
 }
