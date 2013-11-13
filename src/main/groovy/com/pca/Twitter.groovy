@@ -1,7 +1,7 @@
 package com.pca
 
 class Twitter {
-     /*
+
     def tweets = []
     def whiteList = []
     def blackList = []
@@ -46,5 +46,5 @@ class Twitter {
     def filterWhiteListTweet(tweet) {
        whiteList.contains(tweet.tweetHandle)
     }
-      */
+
 }
