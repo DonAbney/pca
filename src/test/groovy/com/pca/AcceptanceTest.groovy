@@ -112,8 +112,4 @@ class AcceptanceTest extends GroovyTestCase {
         }
 
     }
-
-    void testFailure() {
-        assertEquals true, false
-    }
 }
