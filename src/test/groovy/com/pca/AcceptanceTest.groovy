@@ -4,8 +4,25 @@ import groovy.util.XmlSlurper
 
 class AcceptanceTest extends GroovyTestCase {
 
+    void testWhenIRequestAPublicTimelineIRecieveAPublicTimeline() {
+
+        Tweet tweetOne = new Tweet(tweetHandle: 'Mike', tweetText: 'This is a tweet from Mike')
+        Tweet tweetTwo = new Tweet(tweetHandle: 'Brani', tweetText: 'This is a tweet from Brani')
+
+        def twitter = new Twitter()
+        twitter.setTweets([tweetOne,tweetTwo])
+        def result = twitter.getPublicTimeline()
+
+        assertTrue(result.size() >= 0)
+
+        result.each{
+            assert it instanceof Tweet
+        }
+
+    }
+
     void testWhenIRequestTweetsFromThePublicTimelineThenTheyContainInsertedTweets() {
-    
+
         Tweet tweetOne = new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don')
         Tweet tweetTwo = new Tweet(tweetHandle: 'DJ', tweetText: 'This is a tweet from DJ')
 
