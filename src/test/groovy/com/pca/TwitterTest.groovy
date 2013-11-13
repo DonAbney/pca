@@ -12,6 +12,13 @@ class TwitterTest extends GroovyTestCase {
        twitter = new Twitter()
     }
 
+    void testThatAnyEmptyPublicTimelineCanBeReturned() {
+
+        def result = twitter.getPublicTimeline()
+
+        assert result.size() == 0
+    }
+
     void testThatPublicTimelineCanBeReturned() {
         
         twitter.setTweets([new Tweet(tweetHandle: 'junk', tweetText: 'junk')])
