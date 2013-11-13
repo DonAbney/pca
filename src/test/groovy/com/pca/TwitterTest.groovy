@@ -77,4 +77,35 @@ class TwitterTest extends GroovyTestCase {
 
     }
 
+    void testThatDisplayPublicTimelineShowsTweetsFromWhitelistedUsers() {
+        def whitelist = ['Jimmy']
+        def client = new Twitter(whiteList: whitelist)
+        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed')
+        client.setTweets([tweetOne])
+
+        def result = client.displayPublicTimeline()
+        assert result.contains('<li>This should be white-listed</li>')
+    }
+
+    void testThatDisplayPublicTimelineDoesNotShowTweetsFromUserNotOnWhiteListAndViolatesBlacklist() {
+        def whitelist = ['Ken']
+        def blackList = ['This']
+        def client = new Twitter(whiteList: whitelist, blackList: blackList)
+        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed')
+        client.setTweets([tweetOne])
+
+        def result = client.displayPublicTimeline()
+        assert !result.contains('<li>This should be white-listed</li>')
+    }
+
+    void testThatDisplayPublicTimelineShowsTweetsFromUserOnWhitelistEvenWhenItViolatesBlackList() {
+        def whitelist = ['Ken']
+        def blackList = ['This']
+        def client = new Twitter(whiteList: whitelist, blackList: blackList)
+        Tweet tweetOne = new Tweet(tweetHandle: 'Ken', tweetText: 'This should be white-listed')
+        client.setTweets([tweetOne])
+
+        def result = client.displayPublicTimeline()
+        assert result.contains('<li>This should be white-listed</li>')
+    }
 }

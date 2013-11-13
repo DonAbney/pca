@@ -99,15 +99,16 @@ class AcceptanceTest extends GroovyTestCase {
 
     void testWhenIRequestTweetsFromThePublicTimelineNonWhiteListUsersWithBlacklistTweetsAreFilteredOut() {
         def whiteList = ['Jimmy']
+        def blackList = ['black']
 
         Tweet tweetOne = new Tweet(tweetHandle: 'Ken', tweetText: 'This should not be white-listed, it should be black-listed')
 
-        def twitter = new Twitter(whiteList:whiteList)
+        def twitter = new Twitter(whiteList:whiteList, blackList: blackList)
         twitter.setTweets([tweetOne])
 
         def result = twitter.displayPublicTimeline()
 
-        assert !result.contains('<li>This should not be white-listed</li>')
+        assert !result.contains('<li>This should not be white-listed, it should be black-listed</li>')
     }
 
     void testWhenIRequestTweetsFromThePublicTimelineWithHashtagThenTheTweetsDisplayedHaveHashTag() {
