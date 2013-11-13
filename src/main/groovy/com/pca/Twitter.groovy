@@ -1,5 +1,7 @@
 package com.pca
 
+import groovy.xml.MarkupBuilder
+
 class Twitter {
 
     def tweets = []
