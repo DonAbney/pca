@@ -86,14 +86,16 @@ class AcceptanceTest extends GroovyTestCase {
 
         Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck')
         Tweet tweetTwo = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a badword.')
+        Tweet tweetThree = new Tweet(tweetHandle: 'Jimmy', tweetText: 'Okay to display')
 
         def twitter = new Twitter(whiteList:whiteList, blackList:blackList)
-        twitter.setTweets([tweetOne, tweetTwo])
+        twitter.setTweets([tweetOne, tweetTwo, tweetThree])
 
         def result = twitter.displayPublicTimeline()
 
         assert !result.contains('<li>This should be black-listed, you suck</li>')
         assert !result.contains('<li>This includes a badword.</li>')
+        assert result.contains('<li>Okay to display</li>')
     }
 
 

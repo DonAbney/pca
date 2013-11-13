@@ -32,7 +32,7 @@ class Twitter {
     }
 
     def blackListed(tweet) {
-        return !blackList.isEmpty() && tweet.tweetText =~ blackList.join('|')
+        return blackList && tweet.tweetText =~ blackList.join('|')
     }
 
     def findTweetsForHashtag(hashtag) {
