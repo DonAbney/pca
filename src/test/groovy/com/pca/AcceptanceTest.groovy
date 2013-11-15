@@ -11,7 +11,7 @@ class AcceptanceTest extends GroovyTestCase {
 
         def twitter = new Twitter()
         twitter.setTweets([tweetOne,tweetTwo])
-        def result = twitter.getPublicTimeline()
+        def result = twitter.getTweets()
 
         assertTrue(result.size() >= 0)
 
