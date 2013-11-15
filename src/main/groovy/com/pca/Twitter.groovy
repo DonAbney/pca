@@ -11,7 +11,7 @@ class Twitter {
 
     def addTweet(tweet) {
         if (displayTweet(tweet)) {
-          tweets.push(tweet)
+            tweets.push(tweet)
         }
     }
 
@@ -31,12 +31,13 @@ class Twitter {
     }
 
     def displayTweet(tweet) {
-        filterByWhiteListUser(tweet) || ! ( filterByBlackListedWord(tweet) || filterByBlackListedUser(tweet) )
+        filterByWhiteListUser(tweet) || !(filterByBlackListedWord(tweet) || filterByBlackListedUser(tweet))
     }
 
     def filterByBlackListedWord(tweet) {
         return blackList && tweet.tweetText =~ blackList.join('|')
     }
+
     def filterByBlackListedUser(tweet) {
         return userBlackList.contains(tweet.tweetHandle)
     }
@@ -44,15 +45,24 @@ class Twitter {
     def findTweetsForHashtag(hashtag) {
         def results = []
         tweets.each {
-           if (it.tweetText.contains(hashtag)) {
-               results << it
-           }
+            if (it.tweetText.contains(hashtag)) {
+                results << it
+            }
         }
         return results
     }
-    
+
     def filterByWhiteListUser(tweet) {
-       whiteList.contains(tweet.tweetHandle)
+        whiteList.contains(tweet.tweetHandle)
     }
 
+    def getBlackListedTweets() {
+        def result = []
+        tweets.each {
+            if (filterByBlackListedWord(it)) {
+                result.add(it)
+            }
+        }
+        result
+    }
 }
