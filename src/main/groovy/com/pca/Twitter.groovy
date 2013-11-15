@@ -9,7 +9,9 @@ class Twitter {
     def blackList = []
 
     def addTweet(tweet) {
-        tweets.push(tweet)
+        if (displayTweet(tweet)) {
+          tweets.push(tweet)
+        }
     }
 
     String displayPublicTimeline() {
@@ -19,7 +21,7 @@ class Twitter {
         html.html {
             body {
                 ul {
-                    tweets.each { if ( displayTweet(it) ) { li(it.tweetText) } }
+                    tweets.each { li(it.tweetText) }
                 }
             }
         }
