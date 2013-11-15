@@ -20,8 +20,8 @@ class TwitterTest extends GroovyTestCase {
     }
 
     void testThatPublicTimelineCanBeReturned() {
-        
-        twitter.setTweets([new Tweet(tweetHandle: 'junk', tweetText: 'junk')])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'junk', tweetText: 'junk'))
         def result = twitter.getTweets()
 
         assert result.size() > 0
@@ -33,12 +33,10 @@ class TwitterTest extends GroovyTestCase {
 
     void testThatPublicTimelineFilteredByHashTagReturnsAllTweetsWhenAllMatchHashTag() {
         def hashTag = 'Hashtag'
-        def tweets = [
-                new Tweet([tweetHandle: "123", tweetText: "123 ${hashTag}"]),
-                new Tweet([tweetHandle: "124", tweetText: "${hashTag} 321"])
-        ]
 
-        twitter.setTweets(tweets)
+        twitter.addTweet(new Tweet([tweetHandle: "123", tweetText: "123 ${hashTag}"]))
+        twitter.addTweet(new Tweet([tweetHandle: "124", tweetText: "${hashTag} 321"]))
+
         def result = twitter.findTweetsForHashtag(hashTag)
         assertEquals(2, result.size())
         result.each{
@@ -48,13 +46,11 @@ class TwitterTest extends GroovyTestCase {
 
     void testThatPublicTimelineFilteredByHashTagOnlyReturnsTweetsWithThatHashTag() {
         def hashTag = 'Hashtag'
-        def tweets = [
-                new Tweet([tweetHandle: "123", tweetText: "123 ${hashTag}"]),
-                new Tweet([tweetHandle: "124", tweetText: "${hashTag} 321"]),
-                new Tweet([tweetHandle: "124", tweetText: "NoTag 321"])
-        ]
 
-        twitter.setTweets(tweets)
+        twitter.addTweet(new Tweet(tweetHandle: "123", tweetText: "123 ${hashTag}"))
+        twitter.addTweet(new Tweet(tweetHandle: "124", tweetText: "${hashTag} 321"))
+        twitter.addTweet(new Tweet(tweetHandle: "124", tweetText: "NoTag 321"))
+
         def result = twitter.findTweetsForHashtag(hashTag)
         assertEquals(2, result.size())
         result.each{
@@ -64,13 +60,11 @@ class TwitterTest extends GroovyTestCase {
 
     void testThatPublicTimelineFilteredByHashTagReturnsNoTweetsWhenNoneMatch() {
         def hashTag = 'Hashtag'
-        def tweets = [
-                new Tweet([tweetHandle: "123", tweetText: "123"]),
-                new Tweet([tweetHandle: "124", tweetText: "321"]),
-                new Tweet([tweetHandle: "124", tweetText: "NoTag 321"])
-        ]
 
-        twitter.setTweets(tweets)
+        twitter.addTweet(new Tweet(tweetHandle: "123", tweetText: "123"))
+        twitter.addTweet(new Tweet(tweetHandle: "124", tweetText: "321"))
+        twitter.addTweet(new Tweet(tweetHandle: "124", tweetText: "NoTag 321"))
+
         def result = twitter.findTweetsForHashtag(hashTag)
         assert result instanceof List
         assertEquals(0, result.size())
@@ -79,33 +73,30 @@ class TwitterTest extends GroovyTestCase {
 
     void testThatDisplayPublicTimelineShowsTweetsFromWhitelistedUsers() {
         def whitelist = ['Jimmy']
-        def client = new Twitter(whiteList: whitelist)
-        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed')
-        client.setTweets([tweetOne])
+        def twitter = new Twitter(whiteList: whitelist)
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed'))
 
-        def result = client.displayPublicTimeline()
+        def result = twitter.displayPublicTimeline()
         assert result.contains('<li>This should be white-listed</li>')
     }
 
     void testThatDisplayPublicTimelineDoesNotShowTweetsFromUserNotOnWhiteListAndViolatesBlacklist() {
         def whitelist = ['Ken']
         def blackList = ['This']
-        def client = new Twitter(whiteList: whitelist, blackList: blackList)
-        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed')
-        client.setTweets([tweetOne])
+        def twitter = new Twitter(whiteList: whitelist, blackList: blackList)
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed'))
 
-        def result = client.displayPublicTimeline()
+        def result = twitter.displayPublicTimeline()
         assert !result.contains('<li>This should be white-listed</li>')
     }
 
     void testThatDisplayPublicTimelineShowsTweetsFromUserOnWhitelistEvenWhenItViolatesBlackList() {
         def whitelist = ['Ken']
         def blackList = ['This']
-        def client = new Twitter(whiteList: whitelist, blackList: blackList)
-        Tweet tweetOne = new Tweet(tweetHandle: 'Ken', tweetText: 'This should be white-listed')
-        client.setTweets([tweetOne])
+        def twitter = new Twitter(whiteList: whitelist, blackList: blackList)
+        twitter.addTweet(new Tweet(tweetHandle: 'Ken', tweetText: 'This should be white-listed'))
 
-        def result = client.displayPublicTimeline()
+        def result = twitter.displayPublicTimeline()
         assert result.contains('<li>This should be white-listed</li>')
     }
 }

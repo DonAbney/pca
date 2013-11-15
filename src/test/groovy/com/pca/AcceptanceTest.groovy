@@ -5,12 +5,11 @@ import groovy.util.XmlSlurper
 class AcceptanceTest extends GroovyTestCase {
 
     void testWhenIRequestAPublicTimelineIRecieveAPublicTimeline() {
-
-        Tweet tweetOne = new Tweet(tweetHandle: 'Mike', tweetText: 'This is a tweet from Mike')
-        Tweet tweetTwo = new Tweet(tweetHandle: 'Brani', tweetText: 'This is a tweet from Brani')
-
         def twitter = new Twitter()
-        twitter.setTweets([tweetOne,tweetTwo])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Mike', tweetText: 'This is a tweet from Mike'))
+        twitter.addTweet(new Tweet(tweetHandle: 'Brani', tweetText: 'This is a tweet from Brani'))
+
         def result = twitter.getTweets()
 
         assertTrue(result.size() >= 0)
@@ -22,12 +21,10 @@ class AcceptanceTest extends GroovyTestCase {
     }
 
     void testWhenIRequestTweetsFromThePublicTimelineThenTheyContainInsertedTweets() {
-
-        Tweet tweetOne = new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don')
-        Tweet tweetTwo = new Tweet(tweetHandle: 'DJ', tweetText: 'This is a tweet from DJ')
-
         def twitter = new Twitter()
-        twitter.setTweets([tweetOne, tweetTwo])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don'))
+        twitter.addTweet(new Tweet(tweetHandle: 'DJ', tweetText: 'This is a tweet from DJ'))
 
         def result = twitter.displayPublicTimeline()
 
@@ -36,11 +33,10 @@ class AcceptanceTest extends GroovyTestCase {
     }
 
     void testWhenIRequestTweetsFromThePublicTimelineThenTheyReturnedAsValidHtml() {
-        Tweet tweetOne = new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don')
-        Tweet tweetTwo = new Tweet(tweetHandle: 'DJ', tweetText: 'This is a tweet from DJ')
-
         def twitter = new Twitter()
-        twitter.setTweets([tweetOne, tweetTwo])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don'))
+        twitter.addTweet(new Tweet(tweetHandle: 'DJ', tweetText: 'This is a tweet from DJ'))
 
         def result = twitter.displayPublicTimeline()
         // uncomment the following line, to make the XmlSlurper throw an exception
@@ -57,10 +53,9 @@ class AcceptanceTest extends GroovyTestCase {
         def whiteList = ['Ken', 'Jimmy']
         def blackList = ['suck']
 
-        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed, you suck')
-
         def twitter = new Twitter(whiteList:whiteList, blackList:blackList)
-        twitter.setTweets([tweetOne])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed, you suck'))
 
         def result = twitter.displayPublicTimeline()
 
@@ -70,10 +65,9 @@ class AcceptanceTest extends GroovyTestCase {
     void testWhenIRequestTweetsFromThePublicTimelineWhiteListUsersAreNotFiltered() {
         def whiteList = ['Jimmy']
 
-        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed')
-
         def twitter = new Twitter(whiteList:whiteList)
-        twitter.setTweets([tweetOne])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed'))
 
         def result = twitter.displayPublicTimeline()
 
@@ -84,12 +78,11 @@ class AcceptanceTest extends GroovyTestCase {
         def whiteList = []
         def blackList = ['black', 'badword']
 
-        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck')
-        Tweet tweetTwo = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a badword.')
-        Tweet tweetThree = new Tweet(tweetHandle: 'Jimmy', tweetText: 'Okay to display')
-
         def twitter = new Twitter(whiteList:whiteList, blackList:blackList)
-        twitter.setTweets([tweetOne, tweetTwo, tweetThree])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck'))
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a badword.'))
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'Okay to display'))
 
         def result = twitter.displayPublicTimeline()
 
@@ -103,10 +96,9 @@ class AcceptanceTest extends GroovyTestCase {
         def whiteList = ['Jimmy']
         def blackList = ['black']
 
-        Tweet tweetOne = new Tweet(tweetHandle: 'Ken', tweetText: 'This should not be white-listed, it should be black-listed')
-
         def twitter = new Twitter(whiteList:whiteList, blackList: blackList)
-        twitter.setTweets([tweetOne])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Ken', tweetText: 'This should not be white-listed, it should be black-listed'))
 
         def result = twitter.displayPublicTimeline()
 
@@ -117,11 +109,10 @@ class AcceptanceTest extends GroovyTestCase {
 
         def expectedHashTag = "#sportsRockNot"
 
-        Tweet tweetOne = new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don and ' + expectedHashTag)
-        Tweet tweetTwo = new Tweet(tweetHandle: 'DJ', tweetText: expectedHashTag + 'This is a tweet from DJ' )
-
         def twitter = new Twitter()
-        twitter.setTweets([tweetOne, tweetTwo])
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don and ' + expectedHashTag))
+        twitter.addTweet(new Tweet(tweetHandle: 'DJ', tweetText: expectedHashTag + 'This is a tweet from DJ'))
 
         def result = twitter.findTweetsForHashtag(expectedHashTag)
 

@@ -8,6 +8,10 @@ class Twitter {
     def whiteList = []
     def blackList = []
 
+    def addTweet(tweet) {
+        tweets.push(tweet)
+    }
+
     String displayPublicTimeline() {
         def stringWriter = new StringWriter()
         def html = new MarkupBuilder(stringWriter)
