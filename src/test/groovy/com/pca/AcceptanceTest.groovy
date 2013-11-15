@@ -123,4 +123,15 @@ class AcceptanceTest extends GroovyTestCase {
         }
 
     }
+
+    void testThatTweetFromBlacklistedUserIsNotDisplayed() {
+        def userBlackList =['Jimmy']
+        def twitter = new Twitter(userBlackList: userBlackList)
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'Does not matter what is here'))
+
+        def result = twitter.displayPublicTimeline()
+
+        assert !result.contains('Does not matter what is here')
+    }
 }

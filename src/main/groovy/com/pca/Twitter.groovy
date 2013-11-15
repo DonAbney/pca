@@ -7,6 +7,7 @@ class Twitter {
     def tweets = []
     def whiteList = []
     def blackList = []
+    def userBlackList = []
 
     def addTweet(tweet) {
         if (displayTweet(tweet)) {
@@ -34,7 +35,7 @@ class Twitter {
     }
 
     def blackListed(tweet) {
-        return blackList && tweet.tweetText =~ blackList.join('|')
+        return (blackList && tweet.tweetText =~ blackList.join('|')) || userBlackList.contains(tweet.tweetHandle)
     }
 
     def findTweetsForHashtag(hashtag) {
