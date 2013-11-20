@@ -10,15 +10,20 @@ package com.pca
 class StoreAndRetrieveBlacklistedTweetsTest extends GroovyTestCase {
     void testRetrieveBlackListOnDemand() {
         def blackList = ['black', 'badword']
-        Tweet tweetOne = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck')
-        Tweet tweetTwo = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a badword.')
-        Tweet tweetFour = new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a another badword.')
-        Tweet tweetThree = new Tweet(tweetHandle: 'Jimmy', tweetText: 'Okay to display')
-        Tweet tweetFive = new Tweet(tweetHandle: 'Jimmy', tweetText: 'Okay to display too')
+
+        def badList = [new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck'),
+        new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a badword.'),
+        new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a another badword.')]
+
+        Tweet goodTweet1 = new Tweet(tweetHandle: 'Jimmy', tweetText: 'Okay to display')
+        Tweet goodTweet2 = new Tweet(tweetHandle: 'Jimmy', tweetText: 'Okay to display too')
         def twitter = new Twitter(blackList: blackList)
-        twitter.setTweets([tweetOne, tweetTwo, tweetThree, tweetFour, tweetFive])
+
+        def tweetList = badList + goodTweet1 + goodTweet2
+
+        twitter.setTweets(tweetList)
         def result = twitter.getBlackListedTweets()
-        assert result.size() == 3
-        result.each { assert it.tweetText =~ blackList.join('|') }
+
+        assertEquals(3, result.intersect(badList).size())
     }
 }
