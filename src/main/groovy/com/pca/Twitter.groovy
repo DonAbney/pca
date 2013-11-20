@@ -30,15 +30,15 @@ class Twitter {
         stringWriter.toString()
     }
 
-    def displayTweet(tweet) {
+    private displayTweet(tweet) {
         filterByWhiteListUser(tweet) || !(filterByBlackListedWord(tweet) || filterByBlackListedUser(tweet))
     }
 
-    def filterByBlackListedWord(tweet) {
+    private filterByBlackListedWord(tweet) {
         return blackList && tweet.tweetText =~ blackList.join('|')
     }
 
-    def filterByBlackListedUser(tweet) {
+    private filterByBlackListedUser(tweet) {
         return userBlackList.contains(tweet.tweetHandle)
     }
 
@@ -52,8 +52,8 @@ class Twitter {
         return results
     }
 
-    def filterByWhiteListUser(tweet) {
-        whiteList.contains(tweet.tweetHandle)
+    private filterByWhiteListUser(tweet) {
+       whiteList.contains(tweet.tweetHandle)
     }
 
     def getBlackListedTweets() {
