@@ -53,7 +53,9 @@ class Twitter {
     }
 
     def filterByWhiteListUser(tweet) {
-        whiteList.contains(tweet.tweetHandle)
+        whiteList.find {whiteListedHandle ->
+            whiteListedHandle.equalsIgnoreCase(tweet.tweetHandle)
+        }
     }
 
     def getBlackListedTweets() {

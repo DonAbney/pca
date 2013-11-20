@@ -134,4 +134,18 @@ class AcceptanceTest extends GroovyTestCase {
 
         assert !result.contains('Does not matter what is here')
     }
+
+    void testThatTweetInWhitelistIsCaseInsensitive(){
+        def userWhitelist = ['michael']
+        def blacklist = ['superbad']
+        def twitter = new Twitter(whiteList: userWhitelist, blackList: blacklist)
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Michael', tweetText: 'This tweet is superbad.'))
+
+        def result = twitter.displayPublicTimeline()
+
+        assert result.contains('This tweet is superbad.')
+
+    }
+
 }

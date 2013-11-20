@@ -99,4 +99,17 @@ class TwitterTest extends GroovyTestCase {
         def result = twitter.displayPublicTimeline()
         assert result.contains('<li>This should be white-listed</li>')
     }
+
+    void testThatUserHandlesAreCaseInsensitiveWhenComparingToWhiteList() {
+        def whiteList =['michael']
+        def blackList =['superbad']
+
+        def twitter = new Twitter(whiteList: whiteList, blackList: blackList)
+
+        twitter.addTweet(new Tweet(tweetHandle: 'Michael', tweetText: 'This is superbad'))
+
+        def result = twitter.displayPublicTimeline()
+
+        assert result.contains('This is superbad')
+    }
 }
