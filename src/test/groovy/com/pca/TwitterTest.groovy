@@ -112,4 +112,17 @@ class TwitterTest extends GroovyTestCase {
 
         assert result.contains('This is superbad')
     }
+    
+    void testThatDisplayPublicTimelineFilteredTweetsByWordBlacklistNoMatterTheCase(){
+        def blacklist = ['shit']
+        def twitter = new Twitter(blackList: blacklist)
+
+        twitter.addTweet(new Tweet(tweetHandle: 'lowercase', tweetText: 'This shit sucks'))
+        twitter.addTweet(new Tweet(tweetHandle: 'UPPERCASE', tweetText: 'THIS SHIT SUCKS'))
+        twitter.addTweet(new Tweet(tweetHandle: 'CamelCase', tweetText: 'This Shit Sucks'))
+
+        def result = twitter.displayPublicTimeline()
+        assert !result.contains('<li>')
+    }
+
 }
