@@ -35,7 +35,7 @@ class Twitter {
     }
 
     private filterByBlackListedWord(tweet) {
-        return blackList && tweet.tweetText.tr('A-Z', 'a-z') =~ blackList.join('|').tr('A-Z', 'a-z')
+        return blackList && tweet.tweetText.toUpperCase() =~ blackList.join('|').toUpperCase()
     }
 
     private filterByBlackListedUser(tweet) {

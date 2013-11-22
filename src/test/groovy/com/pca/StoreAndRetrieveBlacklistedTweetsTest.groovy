@@ -1,12 +1,5 @@
 package com.pca
 
-/**
- * Created with IntelliJ IDEA.
- * User: Owner
- * Date: 11/14/13
- * Time: 7:55 PM
- * To change this template use File | Settings | File Templates.
- */
 class StoreAndRetrieveBlacklistedTweetsTest extends GroovyTestCase {
     void testRetrieveBlackListOnDemand() {
         def blackList = ['black', 'badword']
