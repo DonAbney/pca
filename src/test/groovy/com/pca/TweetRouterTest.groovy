@@ -53,4 +53,27 @@ class TweetRouterTest extends GroovyTestCase {
         assert whiteList.contains(tweet)
     }
 
+    void testShouldStoreBlackListedTweetsByHandle() {
+        def tweetRouter = new TweetRouter(blackListedHandles: ['black'])
+        def tweets = [
+                new Tweet(tweetHandle: 'grey', tweetText: 'Text 2'),
+                new Tweet(tweetHandle: 'black', tweetText: 'Text 3'),
+        ]
+
+        tweetRouter.addTweet(tweets[0]);
+        tweetRouter.addTweet(tweets[1]);
+
+        def greyList = tweetRouter.greyList
+       // def whiteList = tweetRouter.whiteList
+        def blackList = tweetRouter.blackList
+
+        assert greyList.size() == 1
+        assert blackList.size() == 1
+        assert greyList.contains(tweets[0])
+        assert !greyList.contains(tweets[1])
+        assert !blackList.contains(tweets[0])
+        assert blackList.contains(tweets[1])
+    }
+
+
 }
