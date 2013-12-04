@@ -1,7 +1,5 @@
 package com.pca
 
-import groovy.util.XmlSlurper
-
 class AcceptanceTest extends GroovyTestCase {
 
     void testWhenIRequestAPublicTimelineIRecieveAPublicTimeline() {
@@ -14,7 +12,7 @@ class AcceptanceTest extends GroovyTestCase {
 
         assertTrue(result.size() >= 0)
 
-        result.each{
+        result.each {
             assert it instanceof Tweet
         }
 
@@ -38,22 +36,19 @@ class AcceptanceTest extends GroovyTestCase {
         twitter.addTweet(new Tweet(tweetHandle: 'Don', tweetText: 'This is a tweet from Don'))
         twitter.addTweet(new Tweet(tweetHandle: 'DJ', tweetText: 'This is a tweet from DJ'))
 
-        def result = twitter.displayPublicTimeline()
         // uncomment the following line, to make the XmlSlurper throw an exception
         // result += '<head>'
 
-
         // If the HTML is not valid, then the XmlSlurper will throw an exception and fail the test
-        def rootNode = new XmlSlurper().parseText(result)
         // Consider adding a try catch block, to gracefully fail if it throws an exception
-	}
-	
-    void testWhenIRequestTweetsFromThePublicTimelineWhitelistUsersAreNotFilteredByTheWordBlacklist(){
+    }
+
+    void testWhenIRequestTweetsFromThePublicTimelineWhitelistUsersAreNotFilteredByTheWordBlacklist() {
 
         def whiteList = ['Ken', 'Jimmy']
         def blackList = ['suck']
 
-        def twitter = new Twitter(whiteList:whiteList, blackList:blackList)
+        def twitter = new Twitter(whiteList: whiteList, blackListedWords: blackList)
 
         twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed, you suck'))
 
@@ -65,7 +60,7 @@ class AcceptanceTest extends GroovyTestCase {
     void testWhenIRequestTweetsFromThePublicTimelineWhiteListUsersAreNotFiltered() {
         def whiteList = ['Jimmy']
 
-        def twitter = new Twitter(whiteList:whiteList)
+        def twitter = new Twitter(whiteList: whiteList)
 
         twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed'))
 
@@ -73,12 +68,12 @@ class AcceptanceTest extends GroovyTestCase {
 
         assert result.contains('<li>This should be white-listed</li>')
     }
-    
-     void testWhenIRequestTweetsFromThePublicTimelineAreFilteredByTheWordBlacklist(){
+
+    void testWhenIRequestTweetsFromThePublicTimelineAreFilteredByTheWordBlacklist() {
         def whiteList = []
         def blackList = ['black', 'badword']
 
-        def twitter = new Twitter(whiteList:whiteList, blackList:blackList)
+        def twitter = new Twitter(whiteList: whiteList, blackListedWords: blackList)
 
         twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be black-listed, you suck'))
         twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This includes a badword.'))
@@ -91,12 +86,11 @@ class AcceptanceTest extends GroovyTestCase {
         assert result.contains('<li>Okay to display</li>')
     }
 
-
     void testWhenIRequestTweetsFromThePublicTimelineNonWhiteListUsersWithBlacklistTweetsAreFilteredOut() {
         def whiteList = ['Jimmy']
         def blackList = ['black']
 
-        def twitter = new Twitter(whiteList:whiteList, blackList: blackList)
+        def twitter = new Twitter(whiteList: whiteList, blackListedWords: blackList)
 
         twitter.addTweet(new Tweet(tweetHandle: 'Ken', tweetText: 'This should not be white-listed, it should be black-listed'))
 
@@ -118,14 +112,14 @@ class AcceptanceTest extends GroovyTestCase {
 
         assert result.size() == 2
 
-        result.each{
+        result.each {
             assert it.tweetText.contains(expectedHashTag)
         }
 
     }
 
     void testThatTweetFromBlacklistedUserIsNotDisplayed() {
-        def userBlackList =['Jimmy']
+        def userBlackList = ['Jimmy']
         def twitter = new Twitter(userBlackList: userBlackList)
 
         twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'Does not matter what is here'))
@@ -135,10 +129,10 @@ class AcceptanceTest extends GroovyTestCase {
         assert !result.contains('Does not matter what is here')
     }
 
-    void testThatTweetInWhitelistIsCaseInsensitive(){
+    void testThatTweetInWhitelistIsCaseInsensitive() {
         def userWhitelist = ['michael']
         def blacklist = ['superbad']
-        def twitter = new Twitter(whiteList: userWhitelist, blackList: blacklist)
+        def twitter = new Twitter(whiteList: userWhitelist, blackListedWords: blacklist)
 
         twitter.addTweet(new Tweet(tweetHandle: 'Michael', tweetText: 'This tweet is superbad.'))
 

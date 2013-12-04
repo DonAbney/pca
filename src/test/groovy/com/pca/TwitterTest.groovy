@@ -4,12 +4,11 @@ import org.junit.Before
 
 class TwitterTest extends GroovyTestCase {
 
-
     def twitter;
 
     @Before
     void setUp() {
-       twitter = new Twitter()
+        twitter = new Twitter()
     }
 
     void testThatAnyEmptyPublicTimelineCanBeReturned() {
@@ -39,7 +38,7 @@ class TwitterTest extends GroovyTestCase {
 
         def result = twitter.findTweetsForHashtag(hashTag)
         assertEquals(2, result.size())
-        result.each{
+        result.each {
             assert it.tweetText.contains(hashTag)
         }
     }
@@ -53,7 +52,7 @@ class TwitterTest extends GroovyTestCase {
 
         def result = twitter.findTweetsForHashtag(hashTag)
         assertEquals(2, result.size())
-        result.each{
+        result.each {
             assert it.tweetText.contains(hashTag)
         }
     }
@@ -83,7 +82,7 @@ class TwitterTest extends GroovyTestCase {
     void testThatDisplayPublicTimelineDoesNotShowTweetsFromUserNotOnWhiteListAndViolatesBlacklist() {
         def whitelist = ['Ken']
         def blackList = ['This']
-        def twitter = new Twitter(whiteList: whitelist, blackList: blackList)
+        def twitter = new Twitter(whiteList: whitelist, blackListedWords: blackList)
         twitter.addTweet(new Tweet(tweetHandle: 'Jimmy', tweetText: 'This should be white-listed'))
 
         def result = twitter.displayPublicTimeline()
@@ -93,7 +92,7 @@ class TwitterTest extends GroovyTestCase {
     void testThatDisplayPublicTimelineShowsTweetsFromUserOnWhitelistEvenWhenItViolatesBlackList() {
         def whitelist = ['Ken']
         def blackList = ['This']
-        def twitter = new Twitter(whiteList: whitelist, blackList: blackList)
+        def twitter = new Twitter(whiteList: whitelist, blackListedWords: blackList)
         twitter.addTweet(new Tweet(tweetHandle: 'Ken', tweetText: 'This should be white-listed'))
 
         def result = twitter.displayPublicTimeline()
@@ -101,10 +100,10 @@ class TwitterTest extends GroovyTestCase {
     }
 
     void testThatUserHandlesAreCaseInsensitiveWhenComparingToWhiteList() {
-        def whiteList =['michael']
-        def blackList =['superbad']
+        def whiteList = ['michael']
+        def blackList = ['superbad']
 
-        def twitter = new Twitter(whiteList: whiteList, blackList: blackList)
+        def twitter = new Twitter(whiteList: whiteList, blackListedWords: blackList)
 
         twitter.addTweet(new Tweet(tweetHandle: 'Michael', tweetText: 'This is superbad'))
 
@@ -112,10 +111,10 @@ class TwitterTest extends GroovyTestCase {
 
         assert result.contains('This is superbad')
     }
-    
-    void testThatDisplayPublicTimelineFilteredTweetsByWordBlacklistNoMatterTheCase(){
+
+    void testThatDisplayPublicTimelineFilteredTweetsByWordBlacklistNoMatterTheCase() {
         def blacklist = ['shit']
-        def twitter = new Twitter(blackList: blacklist)
+        def twitter = new Twitter(blackListedWords: blacklist)
 
         twitter.addTweet(new Tweet(tweetHandle: 'lowercase', tweetText: 'This shit sucks'))
         twitter.addTweet(new Tweet(tweetHandle: 'UPPERCASE', tweetText: 'THIS SHIT SUCKS'))
@@ -125,4 +124,42 @@ class TwitterTest extends GroovyTestCase {
         assert !result.contains('<li>')
     }
 
+    void testThatAddUserToBlackListAddsTheUser() {
+        def userBlackList = []
+        def twitter = new Twitter(userBlackList: userBlackList)
+        twitter.addUserToBlackList('CJ')
+        def result = twitter.userBlackList
+        assert result.size() == 1
+        assert result.contains('CJ')
+
+    }
+
+    void testThatAddUserToBlackListRemovesUserFromWhiteList() {
+        def whiteList = ['CJ']
+        def blackList = []
+        def twitter = new Twitter(userBlackList: blackList, whiteList: whiteList)
+        twitter.addUserToBlackList('CJ')
+        assert twitter.userBlackList.size() == 1
+        assert twitter.userBlackList.contains('CJ')
+        assert twitter.whiteList.size() == 0
+
+    }
+
+    void testThatAddUserToBlackListHandlesNullValues() {
+        def whiteList = ['CJ']
+        def blackList = []
+        def twitter = new Twitter(userBlackList: blackList, whiteList: whiteList)
+        twitter.addUserToBlackList(null)
+        assert twitter.userBlackList.size() == 1
+        assert twitter.whiteList.size() == 1
+
+    }
+
+    void testAddingUsertoBlackListIfTheyAreNotInTheWhiteListDoesNotBlowStuffUp() {
+        def blackList = ['someone']
+        def twitter = new Twitter(userBlackList: blackList)
+        twitter.addUserToBlackList('someone else')
+        assert twitter.userBlackList.size() == 2
+        assert twitter.userBlackList.contains('someone else')
+    }
 }

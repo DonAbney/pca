@@ -6,7 +6,7 @@ class Twitter {
 
     def tweets = []
     def whiteList = []
-    def blackList = []
+    def blackListedWords = []
     def userBlackList = []
 
     def addTweet(tweet) {
@@ -35,7 +35,7 @@ class Twitter {
     }
 
     private filterByBlackListedWord(tweet) {
-        return blackList && tweet.tweetText.toUpperCase() =~ blackList.join('|').toUpperCase()
+        return blackListedWords && tweet.tweetText.toUpperCase() =~ blackListedWords.join('|').toUpperCase()
     }
 
     private filterByBlackListedUser(tweet) {
@@ -53,7 +53,7 @@ class Twitter {
     }
 
     private filterByWhiteListUser(tweet) {
-        whiteList.find {whiteListedHandle ->
+        whiteList.find { whiteListedHandle ->
             whiteListedHandle.equalsIgnoreCase(tweet.tweetHandle)
         }
     }
@@ -66,5 +66,10 @@ class Twitter {
             }
         }
         result
+    }
+
+    def addUserToBlackList(String s) {
+        userBlackList.add(s)
+        !whiteList.contains(s) ?: whiteList.remove(s)
     }
 }
