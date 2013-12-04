@@ -41,4 +41,16 @@ class TweetRouterTest extends GroovyTestCase {
         assert whiteList.contains(tweets[1])
     }
 
+    void testThatTweetInWhiteListIsCaseInsensitive() {
+        def tweetRouter = new TweetRouter(whiteListedHandles: ['white'])
+        def tweet = new Tweet(tweetHandle: 'WhItE', tweetText: 'Text')
+
+        tweetRouter.addTweet(tweet)
+
+        def whiteList = tweetRouter.whiteList
+
+        assert whiteList.size() == 1
+        assert whiteList.contains(tweet)
+    }
+
 }

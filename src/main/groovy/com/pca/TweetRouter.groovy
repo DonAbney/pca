@@ -15,7 +15,7 @@ class TweetRouter {
 
     private isWhiteListed(tweet) {
         whiteListedHandles.find {whiteListedHandle ->
-            whiteListedHandle.equals(tweet.tweetHandle)
+            whiteListedHandle.equalsIgnoreCase(tweet.tweetHandle)
         }
     }
 }
