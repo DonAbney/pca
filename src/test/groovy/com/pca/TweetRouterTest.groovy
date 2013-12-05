@@ -121,4 +121,16 @@ class TweetRouterTest extends GroovyTestCase {
         assert blackList.contains(tweet)
     }
 
+    void testTweetsWithWhiteListedHandleAreRoutedToWhiteListEvenWithBlackListedWord() {
+        def tweetRouter = new TweetRouter(whiteListedHandles: ['white'], blackListedWords: ['black'])
+        def tweet = new Tweet(tweetHandle: 'white', tweetText: 'Text with black in it.')
+
+        tweetRouter.addTweet(tweet)
+
+        def whiteList = tweetRouter.whiteList
+
+        assert whiteList.size() == 1
+        assert whiteList.contains(tweet)
+    }
+
 }
