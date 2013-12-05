@@ -75,5 +75,16 @@ class TweetRouterTest extends GroovyTestCase {
         assert blackList.contains(tweets[1])
     }
 
+    void testThatTweetsBlackListedByHandleIsCaseInsensitive() {
+        def tweetRouter = new TweetRouter(blackListedHandles: ['black'])
+        def tweet = new Tweet(tweetHandle: 'BlAcK', tweetText: 'Text')
+
+        tweetRouter.addTweet(tweet)
+
+        def blackList = tweetRouter.blackList
+
+        assert blackList.size() == 1
+        assert blackList.contains(tweet)
+    }
 
 }

@@ -27,7 +27,7 @@ class TweetRouter {
 
     private isBlackListed(tweet){
         blackListedHandles.find {blackListedHandle ->
-            blackListedHandle.equals(tweet.tweetHandle)
+            blackListedHandle.equalsIgnoreCase(tweet.tweetHandle)
         }
 
     }
