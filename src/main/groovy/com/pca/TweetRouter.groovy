@@ -6,6 +6,7 @@ class TweetRouter {
     def blackList = new TweetList()
     def whiteListedHandles
     def blackListedHandles
+    def blackListedWords
 
     def addTweet(tweet) {
         if (isWhiteListed(tweet)) {
@@ -26,9 +27,16 @@ class TweetRouter {
     }
 
     private isBlackListed(tweet){
+        isBlackListedByHandle(tweet) || isBlackListedByWord(tweet)
+    }
+
+    private isBlackListedByHandle(tweet) {
         blackListedHandles.find {blackListedHandle ->
             blackListedHandle.equalsIgnoreCase(tweet.tweetHandle)
         }
+    }
 
+    private isBlackListedByWord(tweet) {
+        blackListedWords && tweet.tweetText =~ blackListedWords.join('|')
     }
 }
