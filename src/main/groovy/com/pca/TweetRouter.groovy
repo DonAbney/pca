@@ -37,6 +37,6 @@ class TweetRouter {
     }
 
     private isBlackListedByWord(tweet) {
-        blackListedWords && tweet.tweetText =~ blackListedWords.join('|')
+        blackListedWords && tweet.tweetText =~ "(?i)" + blackListedWords.join('|')
     }
 }
