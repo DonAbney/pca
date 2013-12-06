@@ -4,4 +4,5 @@ class Tweet {
 
     String tweetHandle
     String tweetText
+    boolean eligible = true
 }
