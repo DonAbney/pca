@@ -2,11 +2,17 @@ package com.pca
 
 
 class TweetPresenter {
-    def templateFileName = "testTweetTemplate.html"
+    def templateFileName = "template.html"
+    def tweets = []
 
     def TweetPresenter() {
         def templateText = initializeHtmlTemplateFile()
         initializeDisplayHtmlFile(templateText)
+    }
+
+    def addTweet(tweet) {
+        def tweetHtml = new TweetToHtmlConverter().display(tweet)
+        tweets.add(tweetHtml)
     }
 
     private String initializeHtmlTemplateFile() {
